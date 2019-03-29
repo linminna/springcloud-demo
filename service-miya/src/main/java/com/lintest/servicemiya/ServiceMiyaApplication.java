@@ -31,7 +31,7 @@ public class ServiceMiyaApplication {
         return "hi i'm miya!";
     }
 
-    @RequestMapping("/miya")
+    @RequestMapping("/info")
     public String info() {
         LOG.log(Level.INFO, "info is being called");
         return restTemplate.getForObject("http://SERVICE-HI/info", String.class);
@@ -44,8 +44,6 @@ public class ServiceMiyaApplication {
     public RestTemplate getRestTemplate() {
         return new RestTemplate();
     }
-
-
     @Bean
     public Sampler defaultSampler() {
         return Sampler.ALWAYS_SAMPLE;

@@ -53,7 +53,7 @@ public class ServiceHiApplication {
     
     @RequestMapping("/miya")
     public String miya() {
-        return restTemplate.getForObject("http://SERVICE-MIYA/hi",String.class);
+        return restTemplate.getForObject("http://localhost:8800/hi",String.class);//SERVICE-MIYA
     }
 
     @RequestMapping("/hello")
