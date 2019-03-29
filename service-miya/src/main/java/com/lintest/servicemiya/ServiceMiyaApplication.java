@@ -4,6 +4,8 @@ import brave.sampler.Sampler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +16,7 @@ import java.util.logging.Logger;
 
 @SpringBootApplication
 @RestController
+@EnableEurekaClient
 public class ServiceMiyaApplication {
 
     public static void main(String[] args) {
@@ -23,22 +26,22 @@ public class ServiceMiyaApplication {
     private static final Logger LOG = Logger.getLogger(ServiceMiyaApplication.class.getName());
 
     @RequestMapping("/hi")
-    public String home(){
+    public String home() {
         LOG.log(Level.INFO, "hi is being called");
         return "hi i'm miya!";
     }
 
     @RequestMapping("/miya")
-    public String info(){
+    public String info() {
         LOG.log(Level.INFO, "info is being called");
-        return restTemplate.getForObject("http://localhost:8762/info",String.class);
+        return restTemplate.getForObject("http://SERVICE-HI/info", String.class);
     }
 
     @Autowired
     private RestTemplate restTemplate;
 
     @Bean
-    public RestTemplate getRestTemplate(){
+    public RestTemplate getRestTemplate() {
         return new RestTemplate();
     }
 
