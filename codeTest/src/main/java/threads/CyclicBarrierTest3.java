@@ -1,5 +1,6 @@
 package threads;
 
+import java.util.Vector;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
@@ -15,17 +16,35 @@ import java.util.concurrent.CyclicBarrier;
 public class CyclicBarrierTest3 {
     public static void main(String[] args) {
         final int N = 4;
-        final CountDownLatch latch = new CountDownLatch(N);
         CyclicBarrier barrier = new CyclicBarrier(N);
+        try {
+            CyclicBarrierTest3.test1(N, barrier);
+            CyclicBarrierTest3.test2(N, barrier);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void test1(int N, CyclicBarrier barrier) throws Exception {
+        final CountDownLatch latch = new CountDownLatch(N);
         for (int i = 1; i <= N; i++) {
             new Thread(new Writer(barrier, latch)).start();
         }
-        try {
-            latch.await();
-            System.out.println("程序结束！！！");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        latch.await();
+        System.out.println("线程执行完成。。");
+    }
+
+    private static void test2(int N, CyclicBarrier barrier) throws Exception {
+        Vector<Thread> threadVector = new Vector<>();
+        for (int i = 1; i <= N; i++) {
+            Thread thread = new Thread(new CyclicBarrierTest1.Writer(barrier));
+            thread.start();
+            threadVector.add(thread);
         }
+        for (Thread thread : threadVector) {
+            thread.join();
+        }
+        System.out.println("线程执行完成。。");
     }
 
     static class Writer implements Runnable {
