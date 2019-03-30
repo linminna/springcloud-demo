@@ -23,12 +23,12 @@
         <module>eureka-server</module>
         <module>service-hi</module>
         <module>service-hi2</module>
-        <!--<module>service-feign</module>
+        <module>service-feign</module>
         <module>service-lucy</module>
         <module>service-miya</module>
         <module>service-ribbon</module>
         <module>service-turbine</module>
-        <module>service-zuul</module>-->
+        <module>service-zuul</module>
         <module>codeTest</module>
     </modules>
 

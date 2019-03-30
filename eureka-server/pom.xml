@@ -17,10 +17,10 @@
     <name>eureka-server</name>
     <description>Demo project for Spring Boot</description>
 
-    <properties>
+    <!--<properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
-    </properties>
+    </properties>-->
 
     <dependencies>
         <dependency>
