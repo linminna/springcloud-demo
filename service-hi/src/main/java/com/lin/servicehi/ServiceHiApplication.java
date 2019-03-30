@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
@@ -46,14 +47,16 @@ public class ServiceHiApplication {
 
     @Autowired
     private RestTemplate restTemplate;
+
     @Bean
-    public RestTemplate getRestTemplate(){
+    @LoadBalanced
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-    
+
     @RequestMapping("/miya")
     public String miya() {
-        return restTemplate.getForObject("http://localhost:8800/hi",String.class);//SERVICE-MIYA
+        return restTemplate.getForObject("http://SERVICE-MIYA/hi", String.class);//SERVICE-MIYA  localhost:8800
     }
 
     @RequestMapping("/hello")

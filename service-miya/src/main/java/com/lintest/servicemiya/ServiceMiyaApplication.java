@@ -4,7 +4,7 @@ import brave.sampler.Sampler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,16 +34,18 @@ public class ServiceMiyaApplication {
     @RequestMapping("/info")
     public String info() {
         LOG.log(Level.INFO, "info is being called");
-        return restTemplate.getForObject("http://SERVICE-HI/info", String.class);
+        return restTemplate.getForObject("http://service-hi/info", String.class);//SERVICE-HI  localhost:8762
     }
 
     @Autowired
     private RestTemplate restTemplate;
 
     @Bean
-    public RestTemplate getRestTemplate() {
+    @LoadBalanced //要使用服务实例名，必须加该注解
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
     @Bean
     public Sampler defaultSampler() {
         return Sampler.ALWAYS_SAMPLE;
