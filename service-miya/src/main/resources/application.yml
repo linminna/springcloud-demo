@@ -6,6 +6,10 @@ spring:
     name: service-miya
   zipkin:
     base-url: http://localhost:9411
+#  sleuth:
+#    sampler:
+#      #链路采集率, 默认为10%, 测试使用1
+#      percentage: 1
 
 eureka:
   client:
