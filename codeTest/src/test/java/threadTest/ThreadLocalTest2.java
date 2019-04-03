@@ -9,10 +9,10 @@ package threadTest;
 public class ThreadLocalTest2 {
     public static void main(String[] args) {
         TestThreadLocal local = new TestThreadLocal();
-        ThreadBean01 thread01 = new ThreadBean01("线程一", local);
-        ThreadBean01 thread02 = new ThreadBean01("线程二", local);
-        thread01.start();
-        thread02.start();
+        for (int i = 1; i <= 5; i++) {
+            ThreadBean01 thread01 = new ThreadBean01("线程" + i, local);
+            thread01.start();
+        }
     }
 }
 
@@ -45,7 +45,7 @@ class ThreadBean01 extends Thread {
 
     @Override
     public void run() {
-        while (te.getNextNum().getId() < 10) {
+        while (te.getNextNum().getId() < 3) {
             te.getNextNum().setId(te.getNextNum().getId() + 1);
             System.out.println(this.getName() + "数字： " + te.getNextNum().getId());
         }
