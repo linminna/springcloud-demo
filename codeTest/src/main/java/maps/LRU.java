@@ -14,6 +14,7 @@ import java.util.Map;
 public class LRU<K, V> extends LinkedHashMap<K, V> implements Map<K, V> {
 
     private static final long serialVersionUID = 1L;
+    private final Integer INIT_SIZE = 6; 
 
     public LRU(int initialCapacity, float loadFactor, boolean accessOrder) {
         super(initialCapacity, loadFactor, accessOrder);
@@ -30,7 +31,7 @@ public class LRU<K, V> extends LinkedHashMap<K, V> implements Map<K, V> {
      */
     @Override
     protected boolean removeEldestEntry(java.util.Map.Entry<K, V> eldest) {
-        if (size() > 6) {//相当于没有缓存容器容量（超过即移除最先插入且未被使用的元素）
+        if (size() > INIT_SIZE) {//相当于设置缓存容器容量（超过即移除最先插入且未被使用的元素）
             return true;
         }
         return false;
