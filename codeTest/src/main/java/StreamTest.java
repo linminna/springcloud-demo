@@ -45,7 +45,9 @@ public class StreamTest {
         Random random = new Random();
         //limit 方法用于获取指定数量的流
         //Stream 提供了新的方法 'forEach' 来迭代流中的每个数据
-        random.ints(0, 100).limit(10).sorted().forEach(System.out::print);
+        random.ints(0, 100).limit(10).sorted().forEach(e -> {
+            System.out.print(e + "\t");//System.out::print 方法引用
+        });
         System.out.println("------------");
 
         new StreamTest().testGroupingBy();
