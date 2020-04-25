@@ -1,6 +1,7 @@
 package com.lin.servicehi;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -10,10 +11,15 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import com.lmn.servicefeign.model.*;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +29,7 @@ import java.util.logging.Logger;
 @RestController
 @EnableHystrix
 @EnableHystrixDashboard
+@EnableSwagger2
 public class ServiceHiApplication {
 
     public static void main(String[] args) {
@@ -34,12 +41,12 @@ public class ServiceHiApplication {
     @Value("${server.port}")
     private String port;
 
-    @RequestMapping("/hi")
+    @GetMapping("/hi")
     public String home(@RequestParam(value = "name", defaultValue = "forezp") String name) {
         return "hi " + name + " ,i am from port:" + port;
     }
 
-    @RequestMapping("/info")
+    @GetMapping("/info")
     public String info() {
         LOG.log(Level.INFO, "calling trace service-hi ");
         return "i'm service-hi";
@@ -54,12 +61,12 @@ public class ServiceHiApplication {
         return new RestTemplate();
     }
 
-    @RequestMapping("/miya")
+    @GetMapping("/miya")
     public String miya() {
         return restTemplate.getForObject("http://SERVICE-MIYA/hi", String.class);//SERVICE-MIYA  localhost:8800
     }
 
-    @RequestMapping("/hello")
+    @GetMapping("/hello")
     @HystrixCommand(fallbackMethod = "hiError")
     public String hello(@RequestParam(value = "name", defaultValue = "forezp") String name) {
         return "hello " + name + " ,i am from port:" + port;
@@ -68,4 +75,7 @@ public class ServiceHiApplication {
     public String hiError(String name) {
         return "hello," + name + ",sorry,error!";
     }
+
+    // TODO: 2020/4/25
+
 }

@@ -17,3 +17,6 @@ eureka:
 spring:
   application:
     name: eurka-server
+swagger2:
+  enable: true
+  base-package: com.lmn
